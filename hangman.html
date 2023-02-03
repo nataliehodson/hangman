@@ -5,6 +5,10 @@
         <meta charset="utf-8"/>
         <script src="./script.js"></script>
         <link rel="stylesheet" href="./styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Unbounded&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
     </head>
     <body onload="playHangman()">
         <h1>Let's play Hangman!</h1>
@@ -13,16 +17,27 @@
             <h2>Word to guess:</h2>
             <p class="word" style="font-size: 44px;"></p>
 
-            <input class="letterGuess" maxlength="1">
-            <button type="button" class="submit">Guess</button>
-            <p class="goodOrBad"></p>
-            <p class="winOrLose"></p>
+            <div>
+                <input class="letterGuess" maxlength="1">
+                <button type="button" class="submit">Guess</button>
+            </div>
+            
+            <div class="notify">
+                <p class="goodOrBad"></p>
+                <p class="winOrLose"></p>
+            </div>
+            
 
-            <h3>Lives left:</h3>
-            <p class="guesses">10</p>
-
-            <h3>Letters guessed:</h3>
-            <p class="lettersGuessed"></p>
+            <div class="lives-cont">
+                <h3>Lives left:</h3>
+                <p class="guesses">10</p>
+            </div>
+            
+            <div class="guess-cont">
+                <h3>Letters guessed:</h3>
+                <p class="lettersGuessed"></p>
+            </div>
+            
 
             <button type="button" class="restart">Restart</button>
         </div>
