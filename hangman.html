@@ -3,154 +3,28 @@
     <head>
         <title>Day 01</title>
         <meta charset="utf-8"/>
+        <script src="./script.js"></script>
+        <link rel="stylesheet" href="./styles.css">
     </head>
-    <body>
+    <body onload="playHangman()">
         <h1>Let's play Hangman!</h1>
         
-        
-        <h2>Word to guess:</h2>
+        <div class="game-container">
+            <h2>Word to guess:</h2>
+            <p class="word" style="font-size: 44px;"></p>
 
-        <p class="word" style="font-size: 44px;"></p>
+            <input class="letterGuess" maxlength="1">
+            <button type="button" class="submit">Guess</button>
+            <p class="goodOrBad"></p>
+            <p class="winOrLose"></p>
 
-        <input class="letterGuess" maxlength="1">
-        <button type="button" class="submit">Guess</button>
-        <p class="goodOrBad"></p>
-        <p class="winOrLose"></p>
+            <h3>Lives left:</h3>
+            <p class="guesses">10</p>
 
-        <h3>Lives left:</h3>
-        <p class="guesses">10</p>
+            <h3>Letters guessed:</h3>
+            <p class="lettersGuessed"></p>
 
-        <h3>Letters guessed:</h3>
-        <p class="lettersGuessed"></p>
-
-        <button type="button" class="restart">Restart</button>
-
-
-        <script>
-            const guess = document.querySelector('.letterGuess');
-            const word = document.querySelector('.word');
-            const guesses = document.querySelector('.guesses');
-            const lettersGuessed = document.querySelector('.lettersGuessed');
-            const submit = document.querySelector('.submit');
-            const goodOrBad = document.querySelector('.goodOrBad');
-            const winOrLose = document.querySelector('.winOrLose');
-            const restart = document.querySelector('.restart');
-
-            restart.style.display = 'none';
-            
-
-
-            //list of possible words
-            const wordList = ['elephant', 'school', 'Finland', 'building', 'cat', 'computer'];
-            
-
-            
-            //randomly select word from list
-            let wordToGuess = wordList[Math.floor(Math.random() * wordList.length)];
-            wordToGuess = wordToGuess.toLowerCase();
-            console.log(wordToGuess);
-
-            //split word into seperate letters
-            const splitWord = wordToGuess.split('');
-            //create array with underscores for each letter
-            let gaps = [...Array(splitWord.length)].map(x => String.fromCharCode(95));
-            gaps = gaps.join(' ');
-
-
-            word.textContent = gaps;
-
-            let lives = 10;
-
-            function guessLetter() {
-                if (isNaN(guess.value)) {
-
-                    //add letter guessed to already guessed
-                    lettersGuessed.textContent += `${guess.value}, `;
-
-                    //guessed correct letter
-                    if (splitWord.includes(guess.value)) {
-                        //check if letter is there multiple times
-                        for (let i = 0; i < splitWord.length; i++) {
-                            let index = splitWord.indexOf(guess.value)
-                            
-                            //make guessed letter appear in hidden word
-                            gaps = gaps.split(' ')
-                            gaps[index] = guess.value;
-                            gaps = gaps.join(' ');
-
-                            word.textContent = gaps;
-                            //remove letter from word
-                            splitWord[index] = '';
-                            restart.style.display = 'none';
-
-                        }
-                        goodOrBad.textContent = 'Good guess!';
-
-
-                    } else if (!splitWord.includes(guess.value)) {
-                        goodOrBad.textContent = 'Wrong!';
-                        lives--;
-                        restart.style.display = 'none';
-                    }
-
-                    if (lives === 0){ 
-                        winOrLose.textContent = 'Sorry, you lose!';
-                        guess.disabled = true;
-                        submit.disabled = true;
-                        restart.style.display = 'block';
-                    }
-
-                    if (!gaps.includes('_')) {
-                        winOrLose.textContent = 'Well done, you win!!'
-                        guess.disabled = true;
-                        submit.disabled = true;
-                        //show restart button
-                        restart.style.display = 'block';
-                    }
-
-                    //empty input field
-                    guess.value = '';
-
-                    guesses.textContent = lives;
-
-                
-                } else {
-                    goodOrBad.textContent = 'Please enter a letter!';
-                    guess.value = '';
-                }
-
-            }
-
-            function restartGame () {
-                    guessCount = 0;
-                    lettersGuessed.textContent = '';
-                    guesses.textContent = '10';
-                    winOrLose.textContent = '';
-                    goodOrBad.textContent = '';
-                    guess.disabled = false;
-                    submit.disabled = false;
-                    lives.textContent = 10;
-                    //random new word
-                    let wordToGuess = wordList[Math.floor(Math.random() * wordList.length)];
-                    wordToGuess = wordToGuess.toLowerCase();
-                    //split word into seperate letters
-                    const splitWord = wordToGuess.split('');
-                    console.log(splitWord);
-                    //create array with underscores for each letter
-                    let gaps = [...Array(splitWord.length)].map(x => String.fromCharCode(95));
-                    word.textContent = gaps;
-                    restart.style.display = 'none';
-                    gaps = gaps.join(' ');
-                    word.textContent = gaps;
-                    submit.addEventListener('click', guessLetter);
-                    restart.addEventListener('click', restartGame);
-                }
-
-            submit.addEventListener('click', guessLetter);
-            restart.addEventListener('click', restartGame);
-
-
-
-        </script>
+            <button type="button" class="restart">Restart</button>
+        </div>
     </body>
 </html>
