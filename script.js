@@ -10,7 +10,7 @@ function playHangman() {
 
     guess.focus();
     let wordList;
-    
+
     const txtFile = new XMLHttpRequest();
     txtFile.open("GET", "./ukenglish.txt", true);
     txtFile.onreadystatechange = function() {
@@ -22,7 +22,6 @@ function playHangman() {
                 //randomly select word from list
                 let wordToGuess = wordList[Math.floor(Math.random() * wordList.length)];
                 wordToGuess = wordToGuess.toLowerCase();
-                console.log(wordToGuess);
 
                 //split word into seperate letters
                 let splitWord = wordToGuess.split('');
@@ -72,7 +71,7 @@ function playHangman() {
 
                         //if you run out of lives
                         if (lives === 0){ 
-                            winOrLose.textContent = 'Sorry, you lose!';
+                            winOrLose.textContent = `Sorry, you lose! \nThe word was ${wordToGuess}`;
                             endGame();
                         }
 
@@ -99,6 +98,7 @@ function playHangman() {
                     //disable input and guess button
                     guess.disabled = true;
                     submit.disabled = true;
+                    submit.style.cursor = 'default';
                     //show restart button
                     restart.style.display = 'block';
                     restart.addEventListener('click', restartGame);
@@ -115,6 +115,8 @@ function playHangman() {
                     guess.disabled = false;
                     submit.disabled = false;
                     lives = 10;
+
+                    submit.style.cursor = 'pointer';
 
 
                     //random new word
