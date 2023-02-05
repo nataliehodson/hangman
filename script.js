@@ -11,52 +11,46 @@ function playHangman() {
     guess.focus();
     let wordList;
 
+    //get the content of text file containing 82095 English words
     const txtFile = new XMLHttpRequest();
     txtFile.open("GET", "./ukenglish.txt", true);
     txtFile.onreadystatechange = function() {
-        if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
-            if (txtFile.status === 200 || txtFile.status == 0) {  // Makes sure it's found the file.
+        if (txtFile.readyState === 4) {  //make sure the document is ready to parse
+            if (txtFile.status === 200 || txtFile.status == 0) {  //make sure the file is found
                 const allText = txtFile.responseText;
-                wordList  = txtFile.responseText.split("\n"); // Will separate each line into an array
+                wordList  = txtFile.responseText.split("\n"); //each word is an element in the wordList array
 
-                //randomly select word from list
-                let wordToGuess = wordList[Math.floor(Math.random() * wordList.length)];
-                wordToGuess = wordToGuess.toLowerCase();
+                
+                let wordToGuess = wordList[Math.floor(Math.random() * wordList.length)]; //randomly select word from list
+                if (wordToGuess.length < 3) { //if word is less than three letters long, choose another
+                    wordToGuess = wordList[Math.floor(Math.random() * wordList.length)];
+                }
+                wordToGuess = wordToGuess.toLowerCase();//make sure it's all lowercase
 
-                //split word into seperate letters
-                let splitWord = wordToGuess.split('');
-                //create array with underscores for each letter
-                let gaps = [...Array(splitWord.length)].map(x => String.fromCharCode(95));
-                gaps = gaps.join(' ');
+                let splitWord = wordToGuess.split(''); //split word into seperate letters
+                let gaps = [...Array(splitWord.length)].map(x => String.fromCharCode(95)); //create array with underscores for each letter
+                gaps = gaps.join(' '); //make underscore array into string with each separated by a space (when it's an array, the elements are all separated by commas)
 
-
-                word.textContent = gaps;
+                word.textContent = gaps; //show correct amount of underscores on screen
 
                 let lives = 10;
 
 
                 function guessLetter() {
-
-                    //make sure that input is a letter
-                    if (isNaN(guess.value)) {
+                    if (isNaN(guess.value)) { //make sure that input is a letter
                         guess.focus();
-                        //add letter guessed to already guessed
-                        lettersGuessed.textContent += `${guess.value}, `;
+                        lettersGuessed.textContent += `${guess.value}, `; //add letter guessed to already guessed
 
-                        //guessed correct letter
-                        if (splitWord.includes(guess.value)) {
-
-                            //check if letter is there multiple times
-                            for (let i = 0; i < splitWord.length; i++) {
+                        if (splitWord.includes(guess.value)) { //guessed correct letter
+                            for (let i = 0; i < splitWord.length; i++) { //check if letter is there multiple times
                                 let index = splitWord.indexOf(guess.value)
-                                //make guessed letter appear in hidden word
                                 gaps = gaps.split(' ') //make string into array
-                                gaps[index] = guess.value;
+                                gaps[index] = guess.value; //make guessed letter appear in hidden word
                                 gaps = gaps.join(' '); //make array into string (to make it pretty)
 
-                                word.textContent = gaps;
-                                //remove letter from word
-                                splitWord[index] = '';
+                                word.textContent = gaps; //show gaps updated on screen (underscores replaced with letters)
+                                
+                                splitWord[index] = ''; //remove letter from word
                                 restart.style.display = 'none';
 
                             }
@@ -71,7 +65,7 @@ function playHangman() {
 
                         //if you run out of lives
                         if (lives === 0){ 
-                            winOrLose.textContent = `Sorry, you lose! \nThe word was ${wordToGuess}`;
+                            winOrLose.textContent = `Sorry, you lose! The word was ${wordToGuess}`;
                             endGame();
                         }
 
@@ -87,9 +81,10 @@ function playHangman() {
                         guesses.textContent = lives;
 
                     
-                    } else { //if input is number
+                    } else { //if input is not NaN
                         goodOrBad.textContent = 'Please enter a letter!';
                         guess.value = '';
+                        guess.focus();
                     }
 
                 }
@@ -107,8 +102,9 @@ function playHangman() {
                 submit.addEventListener('click', guessLetter);
 
                 function restartGame () {
+                    //reset everything to how it was at the start of the game
                     const resetGame = document.querySelectorAll('.game-container p');
-                    for (const reset of resetGame){
+                    for (const reset of resetGame){ 
                         reset.textContent = ''
                     }
                     guesses.textContent = '10';
@@ -121,10 +117,11 @@ function playHangman() {
 
                     //random new word
                     wordToGuess = wordList[Math.floor(Math.random() * wordList.length)];
+                    if (wordToGuess.length < 3) {
+                        wordToGuess = wordList[Math.floor(Math.random() * wordList.length)];
+                    }
                     wordToGuess = wordToGuess.toLowerCase();
-                    //split word into seperate letters
                     splitWord = wordToGuess.split('');
-                    //create array with underscores for each letter
                     gaps = [...Array(splitWord.length)].map(x => String.fromCharCode(95));
                     word.textContent = gaps;
                     restart.style.display = 'none';
