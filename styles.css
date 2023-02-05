@@ -17,6 +17,7 @@ h1 {
     font-family: 'Unbounded', cursive;
     font-size: 70px;
     color: #F3F58F;
+    margin-bottom: 100px;
 }
 
 p {
@@ -38,12 +39,11 @@ button, input {
     font-size: 35px;
 }
 
-.input {
-}
-
-.submit {
-    background-color: #171219;
+button {
+    background-color: #3F868D;
     color: #F3F58F;
+    cursor: pointer;
+    border: 0;
 }
 
 .lives-cont {
