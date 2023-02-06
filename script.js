@@ -39,6 +39,7 @@ function playHangman() {
                 function guessLetter() {
                     if (isNaN(guess.value)) { //make sure that input is a letter
                         guess.focus();
+                        guess.value = guess.value.toLowerCase();
                         lettersGuessed.textContent += `${guess.value}, `; //add letter guessed to already guessed
 
                         if (splitWord.includes(guess.value)) { //guessed correct letter
